@@ -40,3 +40,60 @@ images = ["item1.png", "item2.png", "item3.png"]
 item_list = pygame.sprite.Group()
 allsprites = pygame.sprite.Group()
 plastic_list = pygame.sprite.Group()
+
+for i in range(50):
+    item = Recyclable(random.choice(images))
+    item.rect.x = random.randrange(screen_width)
+    item.rect.y = random.randrange(screen_height)
+    item_list.add(item)
+    allsprites.add(item)
+
+for i in range(20):
+    plastic = Non_recyclable()
+    item.rect.x = random.randrange(screen_width)
+    item.rect.y = random.randrange(screen_height)
+    plastic_list.add(plastic)
+    allsprites.add(plastic)
+
+bin = Bin()
+allsprites.add(bin)
+
+white = (255,255,255)
+red = (255,0,0)
+
+playing = True
+score = 0
+
+clock = pygame.time.Clock()
+start_time = time.time()
+
+myFont = pygame.font.SysFont("Times New Roman", 22)
+timingFont = pygame.font.SysFont("Times New Roman", 22)
+text = myFont.render("Score ="+str(0),True,white)
+
+while playing:
+
+    clock.tick(30)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            playing = False
+
+    timeElapsed = time.time()-start_time
+    if timeElapsed >= 60:
+        if score > 50:
+            text = myFont.render("  Bin Loot Successful  ",True,red)
+            changeBackground("winscreen.jpeg")
+        else:
+            text = myFont.render("Better luck next time", True, white)
+            changeBackground("losescreen.jpeg")
+        screen.blit(text, (250,40))
+    else:
+        changeBackground("bground.png")
+        countDown = timingFont.render("Time Left:"+str(60-int(timeElapsed)),True, white)
+        screen.blit(countDown,(20,10))
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_UP]:
+            if bin.rect.y > 0:
+                bin.rect.y
